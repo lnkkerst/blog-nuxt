@@ -49,6 +49,7 @@
     "@mdi/font": "^7.1.96",
     "@nuxtjs/robots": "^3.0.0",
     "@pinia/nuxt": "^0.4.6",
+    "dayjs": "^1.11.7",
     "github-markdown-css": "^5.1.0",
     "nuxt-icons": "^3.1.0",
     "nuxt-swiper": "^0.1.9",

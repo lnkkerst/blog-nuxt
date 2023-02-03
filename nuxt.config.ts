@@ -16,6 +16,11 @@ export default defineNuxtConfig({
     hostname: process.env.HOSTNAME ?? 'https://example.com'
   },
   app: {
+    head: {
+      charset: 'utf-8',
+      title: "lnkkerst's blog",
+      meta: [{ name: 'description', content: "lnkkerst's blog" }]
+    },
     pageTransition: { name: 'page', mode: 'out-in' }
   },
   modules: [
