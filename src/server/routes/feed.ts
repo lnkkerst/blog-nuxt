@@ -1,10 +1,10 @@
 import RSS from 'rss';
+import dayjs from 'dayjs';
 import { serverQueryContent } from '#content/server';
-// Fetch all documents
 
 export default defineEventHandler(async event => {
-  const docs = await serverQueryContent(event).find();
-  const { hostname } = useRuntimeConfig();
+  const docs = await serverQueryContent(event).sort({ pubDate: -1 }).find();
+  const { hostname } = useRuntimeConfig().public;
 
   const feed = new RSS({
     title: "lnkkerst's blog",
@@ -15,8 +15,14 @@ export default defineEventHandler(async event => {
   });
 
   for (const doc of docs) {
-    const { title, description, _dir }: { [name: string]: string } = doc;
-    feed.item({ title, description, url: _dir, date: new Date() });
+    const { title, description, _dir, pubDate }: { [name: string]: string } =
+      doc;
+    feed.item({
+      title,
+      description,
+      url: `${hostname}/${_dir}`,
+      date: dayjs(pubDate).toDate()
+    });
   }
 
   return feed.xml();
