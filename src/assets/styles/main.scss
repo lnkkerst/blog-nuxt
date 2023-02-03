@@ -1,0 +1,13 @@
+@use 'vuetify' with (
+  $utilities: false,
+  $color-pack: false
+);
+
+@import 'overlayscrollbars/overlayscrollbars.css';
+@import '@unocss/reset/tailwind.css';
+@import 'transitions.scss';
+
+html,
+body {
+  overflow: hidden;
+}

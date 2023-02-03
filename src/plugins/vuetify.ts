@@ -1,7 +1,57 @@
+import type { ThemeDefinition } from 'vuetify';
 import { createVuetify } from 'vuetify';
-import * as components from 'vuetify/components';
-import * as directives from 'vuetify/directives';
+import { aliases, mdi } from 'vuetify/iconsets/mdi-svg';
+import { latte, mocha } from '~/utils/colors/catppuccin';
+
+const catppucinMochaTheme: ThemeDefinition = {
+  dark: true,
+  colors: {
+    background: mocha.base,
+    surface: mocha.mantle,
+    primary: mocha.lavender,
+    secondary: mocha.mauve,
+    error: mocha.red,
+    info: mocha.blue,
+    success: mocha.green,
+    warning: mocha.yellow,
+    white: mocha.text
+  }
+};
+
+const catppuccinLatteTheme: ThemeDefinition = {
+  dark: false,
+  colors: {
+    background: latte.base,
+    surface: latte.mantle,
+    primary: latte.lavender,
+    secondary: latte.mauve,
+    error: latte.red,
+    info: latte.blue,
+    success: latte.green,
+    warning: latte.yellow,
+    white: latte.text
+  }
+};
 
 export default defineNuxtPlugin(({ vueApp }) => {
-  vueApp.use(createVuetify({ ssr: true, components, directives }));
+  vueApp.use(
+    createVuetify({
+      ssr: true,
+      icons: {
+        defaultSet: 'mdi',
+        aliases,
+        sets: {
+          mdi
+        }
+      },
+      theme: {
+        defaultTheme: 'dark',
+        themes: {
+          dark: catppucinMochaTheme,
+          light: catppuccinLatteTheme,
+          system: catppucinMochaTheme
+        }
+      }
+    })
+  );
 });

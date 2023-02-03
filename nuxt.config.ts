@@ -1,18 +1,10 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import vuetify from 'vite-plugin-vuetify';
+import transformerDirectives from '@unocss/transformer-directives';
+
 export default defineNuxtConfig({
   srcDir: 'src/',
-  alias: {
-    '~': '/<rootDir>',
-    '@': '/<rootDir>',
-    assets: '/<rootDir>/assets',
-    public: '/<rootDir>/public'
-  },
-  css: [
-    'overlayscrollbars/overlayscrollbars.css',
-    '@unocss/reset/tailwind.css',
-    'vuetify/styles',
-    '@mdi/font/css/materialdesignicons.css'
-  ],
+  css: ['assets/styles/main.scss'],
   build: {
     transpile: ['vuetify', 'overlayscrollbars-vue']
   },
@@ -20,11 +12,18 @@ export default defineNuxtConfig({
     inlineSSRStyles: false,
     reactivityTransform: true
   },
+  runtimeConfig: {
+    hostname: process.env.HOSTNAME ?? 'https://example.com'
+  },
+  app: {
+    pageTransition: { name: 'page', mode: 'out-in' }
+  },
   modules: [
     '@unocss/nuxt',
     'nuxt-headlessui',
     'nuxt-icons',
-    'nuxt-typed-router',
+    'nuxt-icon',
+    // 'nuxt-typed-router',
     '@nuxtjs/i18n',
     '@nuxtjs/color-mode',
     '@vueuse/nuxt',
@@ -32,27 +31,51 @@ export default defineNuxtConfig({
     '@nuxtjs/robots',
     'nuxt-swiper',
     '@nuxt/image-edge',
-    '@pinia/nuxt'
+    '@pinia/nuxt',
+    '@nuxt/content',
+    async (_options, nuxt) => {
+      nuxt.hooks.hook(
+        'vite:extendConfig',
+        config => config.plugins?.push(vuetify()) as any
+      );
+    }
   ],
   unocss: {
     uno: true,
     icons: true,
     attributify: true,
     typography: true,
-    tagify: true,
-    webFonts: {}
+    tagify: {
+      prefix: 'un-'
+    },
+    webFonts: {},
+    transformers: [transformerDirectives()]
   },
   i18n: {
-    locales: ['zh-CN', 'en'],
-    defaultLocale: 'zh-CN',
+    defaultLocale: 'zh',
+    locales: [
+      { code: 'zh', iso: 'zh-CN', file: 'zh-CN.yaml', name: '简体中文' },
+      { code: 'en', iso: 'en-US', file: 'en-US.yaml', name: 'English' }
+    ],
+    langDir: 'src/locales/',
     vueI18n: {
       legacy: false,
-      locale: 'zh-CN',
+      locale: 'zh',
       fallbackLocale: 'en'
     }
   },
   colorMode: {
     preference: 'system',
-    fallback: 'light'
+    fallback: 'dark',
+    classSuffix: ''
+  },
+  content: {
+    highlight: {
+      theme: {
+        default: 'github-light',
+        dark: 'github-dark'
+      },
+      preload: ['javascript', 'typescript']
+    }
   }
 });

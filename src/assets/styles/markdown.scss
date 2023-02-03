@@ -1,0 +1,21 @@
+@mixin base {
+  a {
+    color: $lavender;
+    text-decoration-line: none;
+  }
+
+  pre {
+    background-color: $mantle;
+    font-size: 0.9rem;
+  }
+}
+
+@import 'latte';
+.light .markdown-body {
+  @include base;
+}
+
+@import 'mocha';
+.dark .markdown-body {
+  @include base;
+}
