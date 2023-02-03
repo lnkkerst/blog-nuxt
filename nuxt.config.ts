@@ -13,7 +13,9 @@ export default defineNuxtConfig({
     reactivityTransform: true
   },
   runtimeConfig: {
-    hostname: process.env.HOSTNAME ?? 'https://example.com'
+    public: {
+      hostname: process.env.HOSTNAME ?? 'https://example.com'
+    }
   },
   app: {
     head: {
