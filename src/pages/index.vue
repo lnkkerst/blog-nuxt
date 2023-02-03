@@ -6,6 +6,7 @@ interface Post {
   description: string;
   excerpt: ParsedContent;
   slug: string;
+  pubDate: string;
   language: string;
   languages: string[];
 }
@@ -16,7 +17,8 @@ const localePath = useLocalePath();
 
 const { data: query } = await useAsyncData(() =>
   queryContent('/posts')
-    .only(['title', 'description', 'excerpt', '_dir', '_path'])
+    .only(['title', 'description', 'excerpt', '_dir', '_path', 'pubDate'])
+    .sort({ pubDate: -1 })
     .find()
 );
 
@@ -28,7 +30,7 @@ const posts = computed(() => {
   const res: { [name: string]: Post } = {};
 
   query.value?.forEach(post => {
-    const { title, description, excerpt, _dir: slug, _path } = post;
+    const { title, description, excerpt, _dir: slug, _path, pubDate } = post;
     const language = _path.split('.').at(-1);
     if (!res[slug]) {
       res[slug] = {
@@ -36,6 +38,7 @@ const posts = computed(() => {
         title,
         description,
         excerpt,
+        pubDate,
         language,
         languages: [language]
       };
@@ -55,8 +58,16 @@ const posts = computed(() => {
       <template v-for="post in posts" :key="post.title">
         <v-card mb-4>
           <v-card-title>
-            {{ post.title }}
+            <NuxtLink :to="localePath(`/posts/${post.slug}`)">
+              {{ post.title }}
+            </NuxtLink>
           </v-card-title>
+
+          <v-card-subtitle>
+            <span>{{ post.pubDate }}</span>
+            <span text="0.9rem" class="text-primary">{{ ' | ' }}</span>
+            <span>{{ post.languages.join(' + ') }}</span>
+          </v-card-subtitle>
 
           <v-card-text>
             {{ post.description }}

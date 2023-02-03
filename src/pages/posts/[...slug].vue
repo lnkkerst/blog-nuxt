@@ -5,8 +5,10 @@ import type { ParsedContent } from '@nuxt/content/dist/runtime/types';
 const { locale, t } = useI18n();
 const route = useRoute();
 
-const contentLanguage = ref(locale.value);
+const loading = useState('loading', () => true);
+const contentLanguage = useState('content-language', () => locale.value);
 const { data } = useAsyncData(async () => {
+  loading.value = true;
   let res: ParsedContent | null;
   try {
     res = await queryContent(
@@ -18,24 +20,33 @@ const { data } = useAsyncData(async () => {
     ).findOne();
     contentLanguage.value = 'zh';
   }
+  loading.value = false;
   return res;
 });
 </script>
 
 <template>
-  <div>
-    <div v-if="contentLanguage !== locale" pb="sm" class="text-warning">
-      <v-icon :icon="mdiAlert"></v-icon>
-      {{ t('other_language') }}
+  <div relative>
+    <client-only>
+      <div v-if="loading" mt="xl">
+        <v-progress-linear indeterminate color="primary"></v-progress-linear>
+      </div>
+    </client-only>
+
+    <div v-show="!loading">
+      <div v-if="contentLanguage !== locale" pb="sm" class="text-warning">
+        <v-icon :icon="mdiAlert"></v-icon>
+        {{ t('other_language') }}
+      </div>
+      <ContentRenderer
+        prose
+        max-w-full
+        class="markdown-body"
+        :value="data as any"
+      >
+        <template #empty>{{ t('not_found') }}</template>
+      </ContentRenderer>
     </div>
-    <ContentRenderer
-      prose
-      max-w-full
-      class="markdown-body"
-      :value="data as any"
-    >
-      <template #empty>{{ t('not_found') }}</template>
-    </ContentRenderer>
   </div>
 </template>
 

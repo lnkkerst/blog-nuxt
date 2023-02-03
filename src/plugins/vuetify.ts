@@ -14,7 +14,7 @@ const catppucinMochaTheme: ThemeDefinition = {
     info: mocha.blue,
     success: mocha.green,
     warning: mocha.yellow,
-    white: mocha.text
+    text: mocha.text
   }
 };
 
@@ -29,7 +29,7 @@ const catppuccinLatteTheme: ThemeDefinition = {
     info: latte.blue,
     success: latte.green,
     warning: latte.yellow,
-    white: latte.text
+    text: latte.text
   }
 };
 

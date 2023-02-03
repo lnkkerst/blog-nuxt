@@ -1,5 +1,11 @@
 <script setup lang="ts">
-import { mdiThemeLightDark, mdiTranslate } from '@mdi/js';
+import {
+  mdiBrightnessAuto,
+  mdiThemeLightDark,
+  mdiTranslate,
+  mdiWeatherNight,
+  mdiWhiteBalanceSunny
+} from '@mdi/js';
 import { LocaleObject } from 'vue-i18n-routing';
 import { useTheme } from 'vuetify/lib/framework.mjs';
 
@@ -44,7 +50,7 @@ onMounted(() => {
       :height="2"
     ></NuxtLoadingIndicator>
 
-    <v-app class="text-white">
+    <v-app class="text-text">
       <header
         fixed
         left="0"
@@ -61,6 +67,12 @@ onMounted(() => {
         <div text-xl>
           <NuxtLink :to="localePath('/')">lnkkerst's blog</NuxtLink>
         </div>
+
+        <v-btn ml="1" variant="text" color="text" size="x-small">
+          <NuxtLink to="https://blog-legacy.lnkkerst.me/">
+            {{ t('legacy_version') }}
+          </NuxtLink>
+        </v-btn>
 
         <div grow></div>
 
@@ -100,7 +112,16 @@ onMounted(() => {
               :active="color === $colorMode.preference"
               @click="$colorMode.preference = color"
             >
-              {{ t(`colorMode.${color}`) }}
+              <v-icon
+                :icon="
+                  {
+                    system: mdiBrightnessAuto,
+                    light: mdiWhiteBalanceSunny,
+                    dark: mdiWeatherNight
+                  }[color]
+                "
+              ></v-icon>
+              <span ml="sm">{{ t(`colorMode.${color}`) }}</span>
             </v-list-item>
           </v-list>
         </v-menu>
@@ -129,10 +150,12 @@ zh:
     system: 自动
     light: 亮色
     dark: 暗色
+  legacy_version: 旧版入口
 
 en:
   colorMode:
     system: Auto
     light: Light
     dark: Dark
+  legacy_version: Legacy version
 </i18n>
