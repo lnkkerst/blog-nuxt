@@ -34,6 +34,7 @@ export default defineNuxtConfig({
     '@nuxtjs/i18n',
     '@nuxtjs/color-mode',
     '@vueuse/nuxt',
+    '@vueuse/motion/nuxt',
     '@nuxtjs/device',
     '@nuxtjs/robots',
     'nuxt-swiper',
