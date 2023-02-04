@@ -2,6 +2,10 @@
   a {
     color: $lavender;
     text-decoration-line: none;
+
+    &:hover {
+      color: $mauve;
+    }
   }
 
   pre {

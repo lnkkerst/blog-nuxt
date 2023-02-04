@@ -93,7 +93,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div>
+  <div max-w="640px" mx="auto" relative>
     <transition-group
       :css="false"
       @before-enter="onBeforeEnter"
@@ -108,7 +108,7 @@ onMounted(() => {
         :data-index="index"
       >
         <v-card-title>
-          <NuxtLink :to="localePath(`/posts/${post.slug}`)">
+          <NuxtLink :to="localePath(`/posts/${post.slug}`)" text-xl>
             {{ post.title }}
           </NuxtLink>
         </v-card-title>
@@ -119,14 +119,14 @@ onMounted(() => {
           <span>{{ post.languages.join(' + ') }}</span>
         </v-card-subtitle>
 
-        <v-card-text style="padding-top: 0; padding-bottom: 0">
+        <v-card-text>
           <ContentRenderer
-            prose
-            text-xs
-            class="markdown-body"
+            text-sm
             :value="{ _type: 'markdown', body: post.excerpt }"
           >
-            <template #empty>11</template>
+            <template #empty>
+              {{ post.description ?? t('excerpt_empty') }}
+            </template>
           </ContentRenderer>
         </v-card-text>
 
@@ -149,7 +149,9 @@ onMounted(() => {
 <i18n lang="yaml">
 zh:
   read_more: 查看全文
+  excerpt_empty: 没有摘要
 
 en:
   read_more: READ MORE
+  excerpt_empty: No excerpt
 </i18n>
