@@ -7,7 +7,7 @@ const route = useRoute();
 
 const loading = useState('loading', () => true);
 const contentLanguage = useState('content-language', () => locale.value);
-const { data } = useAsyncData(async () => {
+const { data } = useAsyncData('content', async () => {
   loading.value = true;
   let res: ParsedContent | null;
   try {
