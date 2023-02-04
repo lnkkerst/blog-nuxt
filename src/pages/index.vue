@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import type { ParsedContent } from '@nuxt/content/dist/runtime/types';
 import { gsap } from 'gsap';
 
 interface Post {
   title: string;
   description: string;
-  excerpt: ParsedContent;
+  excerpt: any;
   slug: string;
   pubDate: string;
   language: string;
@@ -39,6 +38,8 @@ const posts = computed(() => {
   query.value?.forEach(post => {
     const { title, description, excerpt, _dir: slug, _path, pubDate } = post;
     const language = _path.split('.').at(-1);
+    // Remove title in excerpt
+    excerpt.children.shift();
     if (!record[slug]) {
       record[slug] = {
         slug,
@@ -118,8 +119,15 @@ onMounted(() => {
           <span>{{ post.languages.join(' + ') }}</span>
         </v-card-subtitle>
 
-        <v-card-text>
-          {{ post.description }}
+        <v-card-text style="padding-top: 0; padding-bottom: 0">
+          <ContentRenderer
+            prose
+            text-xs
+            class="markdown-body"
+            :value="{ _type: 'markdown', body: post.excerpt }"
+          >
+            <template #empty>11</template>
+          </ContentRenderer>
         </v-card-text>
 
         <v-card-actions>
