@@ -139,12 +139,14 @@ export default defineNuxtConfig({
     },
     markdown: {
       remarkPlugins: {
-        'remark-math': {}
+        'remark-math': {},
+        'remark-toc': {}
       },
       rehypePlugins: {
         'rehype-katex': {
           output: 'html'
-        }
+        },
+        'rehype-accessible-emojis': {}
       }
     }
   }
