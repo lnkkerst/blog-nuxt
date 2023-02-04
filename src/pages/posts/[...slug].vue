@@ -7,7 +7,7 @@ const route = useRoute();
 
 const loading = useState('loading', () => true);
 const contentLanguage = useState('content-language', () => locale.value);
-const { data } = useAsyncData(async () => {
+const { data } = useAsyncData('content', async () => {
   loading.value = true;
   let res: ParsedContent | null;
   try {
@@ -15,10 +15,14 @@ const { data } = useAsyncData(async () => {
       `/posts/${(route.params as any).slug[0]}/index.${locale.value}`
     ).findOne();
   } catch (_e) {
-    res = await queryContent(
-      `/posts/${(route.params as any).slug[0]}/index.zh`
-    ).findOne();
-    contentLanguage.value = 'zh';
+    try {
+      res = await queryContent(
+        `/posts/${(route.params as any).slug[0]}/index.zh`
+      ).findOne();
+      contentLanguage.value = 'zh';
+    } catch (_e) {
+      res = null;
+    }
   }
   loading.value = false;
   return res;
@@ -33,20 +37,24 @@ const { data } = useAsyncData(async () => {
       </div>
     </client-only>
 
-    <div v-show="!loading">
-      <div v-if="contentLanguage !== locale" pb="sm" class="text-warning">
-        <v-icon :icon="mdiAlert"></v-icon>
-        {{ t('other_language') }}
+    <transition name="slide-fade-in">
+      <div v-show="!loading">
+        <div v-if="contentLanguage !== locale" pb="sm" class="text-warning">
+          <v-icon :icon="mdiAlert"></v-icon>
+          {{ t('other_language') }}
+        </div>
+        <article>
+          <ContentRenderer
+            prose
+            max-w-full
+            class="markdown-body"
+            :value="data as any"
+          >
+            <template #empty>{{ t('not_found') }}</template>
+          </ContentRenderer>
+        </article>
       </div>
-      <ContentRenderer
-        prose
-        max-w-full
-        class="markdown-body"
-        :value="data as any"
-      >
-        <template #empty>{{ t('not_found') }}</template>
-      </ContentRenderer>
-    </div>
+    </transition>
   </div>
 </template>
 

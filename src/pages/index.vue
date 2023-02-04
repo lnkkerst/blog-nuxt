@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import type { ParsedContent } from '@nuxt/content/dist/runtime/types';
+import { gsap } from 'gsap';
 
 interface Post {
   title: string;
   description: string;
-  excerpt: ParsedContent;
+  excerpt: any;
   slug: string;
   pubDate: string;
   language: string;
@@ -22,18 +22,26 @@ const { data: query } = await useAsyncData(() =>
     .find()
 );
 
+const fl = ref(true);
+
 const posts = computed(() => {
-  if (query === null) {
+  if (fl.value) {
     return [];
   }
 
-  const res: { [name: string]: Post } = {};
+  if (query.value === null) {
+    return [];
+  }
+
+  const record: { [name: string]: Post } = {};
 
   query.value?.forEach(post => {
     const { title, description, excerpt, _dir: slug, _path, pubDate } = post;
     const language = _path.split('.').at(-1);
-    if (!res[slug]) {
-      res[slug] = {
+    // Remove title in excerpt
+    excerpt.children.shift();
+    if (!record[slug]) {
+      record[slug] = {
         slug,
         title,
         description,
@@ -43,48 +51,96 @@ const posts = computed(() => {
         languages: [language]
       };
     } else if (language === locale.value) {
-      res[slug] = { ...res[slug], language, description, title, excerpt };
-      res[slug].languages.push(language);
+      record[slug] = { ...record[slug], language, description, title, excerpt };
+      record[slug].languages.push(language);
     }
   });
 
+  const res = [];
+  for (const i of Reflect.ownKeys(record)) {
+    res.push(record[i as string]);
+  }
+
   return res;
+});
+
+function onBeforeEnter(el: any) {
+  el.style.opacity = 0;
+  el.style.transform = 'translateY(32px)';
+}
+
+function onEnter(el: any, done: gsap.Callback) {
+  gsap.to(el, {
+    opacity: 1,
+    translateY: '0px',
+    delay: el.dataset.index * 0.15,
+    onComplete: done
+  });
+}
+
+function onLeave(el: any, done: gsap.Callback) {
+  gsap.to(el, {
+    opacity: 0,
+    translateY: '32px',
+    delay: el.dataset.index * 0.15,
+    onComplete: done
+  });
+}
+
+onMounted(() => {
+  fl.value = false;
 });
 </script>
 
 <template>
-  <div>
-    <div>
-      <template v-for="post in posts" :key="post.title">
-        <v-card mb-4>
-          <v-card-title>
-            <NuxtLink :to="localePath(`/posts/${post.slug}`)">
-              {{ post.title }}
-            </NuxtLink>
-          </v-card-title>
+  <div max-w="640px" mx="auto" relative>
+    <transition-group
+      :css="false"
+      @before-enter="onBeforeEnter"
+      @enter="onEnter"
+      @leave="onLeave"
+    >
+      <v-card
+        v-for="(post, index) in posts"
+        :key="post.title"
+        mb-4
+        variant="tonal"
+        :data-index="index"
+      >
+        <v-card-title>
+          <NuxtLink :to="localePath(`/posts/${post.slug}`)" text-xl>
+            {{ post.title }}
+          </NuxtLink>
+        </v-card-title>
 
-          <v-card-subtitle>
-            <span>{{ post.pubDate }}</span>
-            <span text="0.9rem" class="text-primary">{{ ' | ' }}</span>
-            <span>{{ post.languages.join(' + ') }}</span>
-          </v-card-subtitle>
+        <v-card-subtitle>
+          <span>{{ post.pubDate }}</span>
+          <span text="0.9rem" class="text-primary">{{ ' | ' }}</span>
+          <span>{{ post.languages.join(' + ') }}</span>
+        </v-card-subtitle>
 
-          <v-card-text>
-            {{ post.description }}
-          </v-card-text>
+        <v-card-text>
+          <ContentRenderer
+            text-sm
+            :value="{ _type: 'markdown', body: post.excerpt }"
+          >
+            <template #empty>
+              {{ post.description ?? t('excerpt_empty') }}
+            </template>
+          </ContentRenderer>
+        </v-card-text>
 
-          <v-card-actions>
-            <v-btn
-              variant="text"
-              color="primary"
-              @click="router.push(localePath(`/posts/${post.slug}`))"
-            >
-              {{ t('read_more') }}
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </template>
-    </div>
+        <v-card-actions>
+          <v-btn
+            variant="text"
+            color="primary"
+            @click="router.push(localePath(`/posts/${post.slug}`))"
+          >
+            {{ t('read_more') }}
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </transition-group>
   </div>
 </template>
 
@@ -93,7 +149,9 @@ const posts = computed(() => {
 <i18n lang="yaml">
 zh:
   read_more: 查看全文
+  excerpt_empty: 没有摘要
 
 en:
   read_more: READ MORE
+  excerpt_empty: No excerpt
 </i18n>
