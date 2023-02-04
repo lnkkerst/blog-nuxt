@@ -58,8 +58,6 @@ const { data } = useAsyncData('content', async () => {
   </div>
 </template>
 
-<style lang="scss" src="~/assets/styles/markdown.scss"></style>
-
 <i18n lang="yaml">
 zh:
   not_found: 请求的文章不存在
