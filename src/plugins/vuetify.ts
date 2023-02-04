@@ -6,6 +6,7 @@ import { latte, mocha } from '~/utils/colors/catppuccin';
 const catppucinMochaTheme: ThemeDefinition = {
   dark: true,
   colors: {
+    ...mocha,
     background: mocha.base,
     surface: mocha.mantle,
     primary: mocha.lavender,
@@ -21,6 +22,7 @@ const catppucinMochaTheme: ThemeDefinition = {
 const catppuccinLatteTheme: ThemeDefinition = {
   dark: false,
   colors: {
+    ...latte,
     background: latte.base,
     surface: latte.mantle,
     primary: latte.lavender,
