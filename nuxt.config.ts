@@ -2,6 +2,44 @@
 import vuetify from 'vite-plugin-vuetify';
 import transformerDirectives from '@unocss/transformer-directives';
 
+// I don't know why it doesn't work :(
+const isCustomElement = (tag: string) => {
+  return [
+    'annotation',
+    'maction',
+    'math',
+    'menclose',
+    'merror',
+    'mfenced',
+    'mfrac',
+    'mglyph',
+    'mi',
+    'mlabeledtr',
+    'mmultiscripts',
+    'mn',
+    'mo',
+    'mover',
+    'mpadded',
+    'mphantom',
+    'mroot',
+    'mrow',
+    'ms',
+    'mspace',
+    'msqrt',
+    'mstyle',
+    'msub',
+    'msubsup',
+    'msup',
+    'mtable',
+    'mtd',
+    'mtext',
+    'mtr',
+    'munder',
+    'munderover',
+    'semantics'
+  ].includes(tag);
+};
+
 export default defineNuxtConfig({
   srcDir: 'src/',
   css: ['assets/styles/main.scss'],
@@ -24,6 +62,20 @@ export default defineNuxtConfig({
       meta: [{ name: 'description', content: "lnkkerst's blog" }]
     },
     pageTransition: { name: 'page', mode: 'out-in' }
+  },
+  vite: {
+    vue: {
+      template: {
+        compilerOptions: {
+          isCustomElement
+        }
+      }
+    }
+  },
+  vue: {
+    compilerOptions: {
+      isCustomElement
+    }
   },
   modules: [
     '@unocss/nuxt',
@@ -84,6 +136,16 @@ export default defineNuxtConfig({
         dark: 'github-dark'
       },
       preload: ['javascript', 'typescript']
+    },
+    markdown: {
+      remarkPlugins: {
+        'remark-math': {}
+      },
+      rehypePlugins: {
+        'rehype-katex': {
+          output: 'html'
+        }
+      }
     }
   }
 });
