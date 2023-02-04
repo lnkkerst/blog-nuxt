@@ -133,7 +133,20 @@ onMounted(() => {
         </v-container>
       </main>
 
-      <footer></footer>
+      <footer>
+        <v-container>
+          <div class="text-subtext0" text-center>
+            <NuxtLink
+              to="https://creativecommons.org/licenses/by-nc-sa/4.0/"
+              opacity-72
+              hover:opacity-100
+            >
+              CC BY-NC-SA 4.0
+            </NuxtLink>
+            {{ '© 2022-PRESENT  lnkkerst' }}
+          </div>
+        </v-container>
+      </footer>
     </v-app>
   </OverlayScrollbars>
 </template>
