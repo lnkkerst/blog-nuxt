@@ -14,7 +14,7 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      hostname: process.env.HOSTNAME ?? 'https://example.com'
+      hostname: process.env.BLOG_HOSTNAME ?? 'https://example.com'
     }
   },
   app: {
