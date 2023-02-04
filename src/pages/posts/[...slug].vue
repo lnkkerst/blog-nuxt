@@ -37,7 +37,7 @@ const { data } = useAsyncData('content', async () => {
       </div>
     </client-only>
 
-    <Transition name="slide-fade">
+    <transition name="slide-fade-in">
       <div v-show="!loading">
         <div v-if="contentLanguage !== locale" pb="sm" class="text-warning">
           <v-icon :icon="mdiAlert"></v-icon>
@@ -54,7 +54,7 @@ const { data } = useAsyncData('content', async () => {
           </ContentRenderer>
         </article>
       </div>
-    </Transition>
+    </transition>
   </div>
 </template>
 
