@@ -1,4 +1,13 @@
-interface Post {
+import type { MarkdownParsedContent } from '@nuxt/content/dist/runtime/types';
+
+interface Post extends MarkdownParsedContent {
+  pubDate: string;
+  tags: string[];
+  category: string;
+  meta: any;
+}
+
+interface PostInformation {
   title: string;
   description: string;
   excerpt: any;
@@ -8,10 +17,58 @@ interface Post {
   languages: string[];
 }
 
-export const usePosts = async () =>
-  await useAsyncData('posts-list', () =>
-    queryContent('/posts')
-      .only(['title', 'description', 'excerpt', '_dir', '_path', 'pubDate'])
+export const usePosts = () => {
+  const { locale } = useI18n();
+
+  return useAsyncData('posts-list', async () => {
+    const query = await queryContent<Post>('/posts')
+      .only([
+        'title',
+        'description',
+        'excerpt',
+        '_dir',
+        '_path',
+        'pubDate',
+        'tags',
+        'category'
+      ])
       .sort({ pubDate: -1 })
-      .find()
-  );
+      .find();
+
+    const record: { [name: string]: PostInformation } = {};
+
+    query.forEach(post => {
+      const { title, description, excerpt, _dir: slug, _path, pubDate } = post;
+      const language = _path.split('.').at(-1);
+      // Remove title in excerpt
+      excerpt.children.shift();
+      if (!record[slug]) {
+        record[slug] = {
+          slug,
+          title,
+          description,
+          excerpt,
+          pubDate,
+          language,
+          languages: [language]
+        };
+      } else if (language === locale.value) {
+        record[slug] = {
+          ...record[slug],
+          language,
+          description,
+          title,
+          excerpt
+        };
+        record[slug].languages.push(language);
+      }
+    });
+
+    const res = [];
+    for (const i of Reflect.ownKeys(record)) {
+      res.push(record[i as string]);
+    }
+
+    return res;
+  });
+};

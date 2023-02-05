@@ -1,0 +1,10 @@
+categories:
+  config: Config
+  notes: Notes
+  algorithms: Algorithms
+
+tags:
+  linux: Linux
+  nvim: Nvim
+  algorithms: Algorithms
+  csp: CSP
