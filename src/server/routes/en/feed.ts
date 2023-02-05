@@ -3,15 +3,15 @@ import dayjs from 'dayjs';
 import { serverQueryPosts } from '~/server/utils/posts';
 
 export default defineEventHandler(async event => {
-  const posts = await serverQueryPosts(event);
+  const posts = await serverQueryPosts(event, { locale: 'en' });
   const { hostname } = useRuntimeConfig().public;
 
   const feed = new RSS({
     title: "lnkkerst's blog",
     description: "lnkkerst's blog",
-    feed_url: `${hostname}/feed`,
+    feed_url: `${hostname}/en/feed`,
     site_url: hostname,
-    language: 'zh-CN'
+    language: 'en-US'
   });
 
   for (const post of posts) {
@@ -19,7 +19,7 @@ export default defineEventHandler(async event => {
     feed.item({
       title,
       description,
-      url: `${hostname}/posts/${slug}`,
+      url: `${hostname}/en/posts/${slug}`,
       date: dayjs(pubDate).toDate()
     });
   }

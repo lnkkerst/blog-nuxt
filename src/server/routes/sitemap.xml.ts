@@ -1,17 +1,35 @@
 import { SitemapStream, streamToPromise } from 'sitemap';
-import { serverQueryContent } from '#content/server';
 
 export default defineEventHandler(async event => {
   // Fetch all documents
-  const docs = await serverQueryContent(event).find();
+  const posts = await serverQueryPosts(event);
+  const { hostname } = useRuntimeConfig().public;
   const sitemap = new SitemapStream({
-    hostname: useRuntimeConfig().public.hostname
+    hostname
   });
 
-  for (const doc of docs) {
+  sitemap.write({
+    url: '/',
+    changefreq: 'daily',
+    priority: 1
+  });
+
+  ['/about', '/links'].forEach(route => {
     sitemap.write({
-      url: doc._dir,
-      changefreq: 'monthly'
+      url: route,
+      changefreq: 'monthly',
+      priority: 0.7
+    });
+  });
+
+  for (const post of posts) {
+    post.languages.forEach(l => {
+      const route = l === 'zh' ? '' : `${l}/`;
+      sitemap.write({
+        url: `${hostname}/${route}posts/${post.slug}`,
+        changefreq: 'monthly',
+        priority: 0.8
+      });
     });
   }
   sitemap.end();
