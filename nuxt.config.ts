@@ -104,7 +104,9 @@ export default defineNuxtConfig({
     uno: true,
     icons: true,
     attributify: true,
-    typography: true,
+    typography: {
+      selectorName: 'markdown-body'
+    },
     tagify: {
       prefix: 'un-'
     },
