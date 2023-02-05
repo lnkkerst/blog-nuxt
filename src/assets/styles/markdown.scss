@@ -1,6 +1,8 @@
 @import './katex.scss';
 
 @mixin base {
+  --at-apply: max-w-full;
+
   a {
     color: $lavender;
     text-decoration-line: none;
