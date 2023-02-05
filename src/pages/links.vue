@@ -5,6 +5,11 @@ definePageMeta({
   }
 });
 
+const { t } = useI18n();
+useHead({
+  title: t('title')
+});
+
 interface Link {
   title: string;
   url: string;
@@ -47,3 +52,11 @@ const links = useState<Link[]>('pages-links', () => [
 </template>
 
 <style scoped></style>
+
+<i18n lang="yaml">
+zh:
+  title: 友链
+
+en:
+  title: Links
+</i18n>
