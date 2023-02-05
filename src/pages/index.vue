@@ -2,6 +2,9 @@
 const { t } = useI18n();
 const router = useRouter();
 const localePath = useLocalePath();
+useHead({
+  title: `lnkkerst's blog`
+});
 
 const { data: posts } = await usePosts();
 </script>
@@ -51,8 +54,10 @@ const { data: posts } = await usePosts();
 zh:
   read_more: 查看全文
   excerpt_empty: 没有摘要
+  index: 首页
 
 en:
   read_more: READ MORE
   excerpt_empty: No excerpt
+  index: Home
 </i18n>
