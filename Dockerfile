@@ -13,6 +13,7 @@ RUN pnpm build
 FROM node:16-alpine as production-stage
 
 COPY --from=build-stage /app/.output /app
+ENV PORT=80
 EXPOSE 80
 
 CMD ["node", "/app/server/index.mjs"]
