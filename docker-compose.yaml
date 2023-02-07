@@ -1,0 +1,8 @@
+version: '3.0'
+services:
+  blog-nuxt:
+    build: .
+    environment:
+      - PORT=80
+    ports:
+      - 3040:80
