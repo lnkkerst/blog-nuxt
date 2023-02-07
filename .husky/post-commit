@@ -1,0 +1,6 @@
+
+#!/bin/bash
+
+if [ -x .git/hooks/post-commit ]; then
+  .git/hooks/post-commit
+fi
