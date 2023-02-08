@@ -79,18 +79,12 @@ export default defineNuxtConfig({
   },
   modules: [
     '@unocss/nuxt',
-    'nuxt-headlessui',
-    'nuxt-icons',
-    'nuxt-icon',
-    // 'nuxt-typed-router',
     '@nuxtjs/i18n',
     '@nuxtjs/color-mode',
     '@vueuse/nuxt',
     '@vueuse/motion/nuxt',
     '@nuxtjs/device',
     '@nuxtjs/robots',
-    'nuxt-swiper',
-    '@nuxt/image-edge',
     '@pinia/nuxt',
     '@nuxt/content',
     async (_options, nuxt) => {
@@ -133,10 +127,6 @@ export default defineNuxtConfig({
   },
   content: {
     highlight: {
-      theme: {
-        default: 'github-light',
-        dark: 'github-dark'
-      },
       preload: ['javascript', 'typescript']
     },
     markdown: {
@@ -147,8 +137,7 @@ export default defineNuxtConfig({
       rehypePlugins: {
         'rehype-katex': {
           output: 'html'
-        },
-        'rehype-accessible-emojis': {}
+        }
       }
     }
   }
