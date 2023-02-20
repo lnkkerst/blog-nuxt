@@ -104,7 +104,10 @@ export default defineNuxtConfig({
     tagify: {
       prefix: 'un-'
     },
-    webFonts: {},
+    webFonts: {
+      provider: 'google',
+      fonts: { mono: ['Jetbrains Mono', 'Fira Code'] }
+    },
     transformers: [transformerDirectives()]
   },
   i18n: {
@@ -127,7 +130,11 @@ export default defineNuxtConfig({
   },
   content: {
     highlight: {
-      preload: ['javascript', 'typescript']
+      preload: ['javascript', 'typescript'],
+      theme: {
+        default: 'github-light',
+        dark: 'github-dark'
+      }
     },
     markdown: {
       remarkPlugins: {

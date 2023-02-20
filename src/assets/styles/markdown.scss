@@ -16,6 +16,10 @@
     background-color: $mantle;
     font-size: 0.9rem;
   }
+
+  code {
+    --at-apply: font-mono;
+  }
 }
 
 @import 'latte';

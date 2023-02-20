@@ -4,7 +4,7 @@ const localePath = useLocalePath();
 </script>
 
 <template>
-  <div prose class="markdown-body">
+  <div class="markdown-body">
     <p>404</p>
     <NuxtLink :to="localePath('/')">{{ t('back_to_home') }}</NuxtLink>
   </div>

@@ -8,6 +8,6 @@ definePageMeta({
 
 <template>
   <div>
-    <ContentDoc path="/pages/about.zh" class="markdown-body" prose></ContentDoc>
+    <ContentDoc path="/pages/about.zh" class="markdown-body"></ContentDoc>
   </div>
 </template>
