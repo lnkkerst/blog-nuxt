@@ -9,7 +9,7 @@ import {
   mdiWeatherNight,
   mdiWhiteBalanceSunny
 } from '@mdi/js';
-import { LocaleObject } from 'vue-i18n-routing';
+import type { LocaleObject } from 'vue-i18n-routing';
 import { useTheme } from 'vuetify/lib/framework.mjs';
 import mdiTelegramSvg from '~/assets/svgs/MdiTelegram.svg?raw';
 
