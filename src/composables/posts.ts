@@ -17,7 +17,7 @@ export interface PostInformation {
   languages: string[];
 }
 
-export const usePosts = () => {
+export function usePosts() {
   const { locale } = useI18n();
 
   return useAsyncData('posts-list', async () => {
@@ -71,4 +71,4 @@ export const usePosts = () => {
 
     return res;
   });
-};
+}

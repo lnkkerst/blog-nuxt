@@ -3,7 +3,7 @@ import vuetify from 'vite-plugin-vuetify';
 import transformerDirectives from '@unocss/transformer-directives';
 
 // I don't know why it doesn't work :(
-const isCustomElement = (tag: string) => {
+function isCustomElement(tag: string) {
   return [
     'annotation',
     'maction',
@@ -38,7 +38,7 @@ const isCustomElement = (tag: string) => {
     'munderover',
     'semantics'
   ].includes(tag);
-};
+}
 
 export default defineNuxtConfig({
   srcDir: 'src/',

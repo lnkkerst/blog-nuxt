@@ -25,14 +25,15 @@ const { data: posts } = await usePosts();
       </v-card-subtitle>
 
       <v-card-text>
-        <ContentRenderer
-          text-sm
-          :value="{ _type: 'markdown', body: post.excerpt }"
-        >
-          <template #empty>
-            {{ post.description ?? t('excerpt_empty') }}
-          </template>
-        </ContentRenderer>
+        <!-- <ContentRenderer -->
+        <!--   text-sm -->
+        <!--   :value="{ _type: 'markdown', body: post.excerpt }" -->
+        <!-- > -->
+        <!--   <template #empty> -->
+        <!--     {{ post.description ?? t('excerpt_empty') }} -->
+        <!--   </template> -->
+        <!-- </ContentRenderer> -->
+        {{ post.description }}
       </v-card-text>
 
       <v-card-actions>
