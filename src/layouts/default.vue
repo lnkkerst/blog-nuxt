@@ -5,7 +5,6 @@ import {
   mdiGithub,
   mdiThemeLightDark,
   mdiTranslate,
-  mdiTwitter,
   mdiWeatherNight,
   mdiWhiteBalanceSunny
 } from '@mdi/js';
@@ -23,6 +22,8 @@ const localePath = useLocalePath();
 
 const colorCookie = useCookie('color-mode', { maxAge: 31536000 });
 const mdiTelegram = mdiTelegramSvg.match(/path d="(.*?)"/)[1];
+const xIcon =
+  'M 13.714199,10.629001 20.416201,3 h -1.5876 L 13.006799,9.6228003 8.3604,3 H 3 L 10.027799,13.015799 3,21.014999 H 4.5876 L 10.731601,14.0196 15.6396,21.014999 H 21 M 5.1605999,4.1723999 h 2.439 L 18.8274,19.9002 h -2.439599';
 const links = ref([
   {
     url: 'https://github.com/lnkkerst',
@@ -30,7 +31,7 @@ const links = ref([
   },
   {
     url: 'https://twitter.com/lnkkerst1',
-    icon: mdiTwitter
+    icon: xIcon
   },
   {
     url: 'https://t.me/lnkkerst',
