@@ -21,7 +21,7 @@ const props = withDefaults(
 const copying = ref(false);
 const copyIcon = ref(mdiClipboard);
 
-const handleCopy = async () => {
+async function handleCopy() {
   copying.value = true;
   await navigator.clipboard.writeText(props.code);
   copying.value = false;
@@ -29,7 +29,7 @@ const handleCopy = async () => {
   setTimeout(() => {
     copyIcon.value = mdiClipboard;
   }, 800);
-};
+}
 </script>
 
 <template>

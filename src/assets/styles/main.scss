@@ -1,12 +1,12 @@
-@use 'vuetify' with (
+@use "vuetify" with (
   $utilities: false,
   $color-pack: false
 );
 
-@import 'overlayscrollbars/overlayscrollbars.css';
-@import '@unocss/reset/tailwind.css';
-@import 'transitions.scss';
-@import './markdown.scss';
+@import "overlayscrollbars/overlayscrollbars.css";
+@import "@unocss/reset/tailwind.css";
+@import "transitions.scss";
+@import "./markdown.scss";
 
 html,
 body {

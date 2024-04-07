@@ -1,4 +1,4 @@
-FROM node:16-alpine as build-stage
+FROM node:16-alpine AS build-stage
 
 WORKDIR /app
 RUN corepack enable
@@ -10,7 +10,7 @@ RUN --mount=type=cache,id=pnpm-store,target=/root/.pnpm-store \
 COPY . .
 RUN pnpm build
 
-FROM node:16-alpine as production-stage
+FROM node:16-alpine AS production-stage
 
 COPY --from=build-stage /app/.output /app
 ENV PORT=80

@@ -1,4 +1,4 @@
-@import './katex.scss';
+@import "./katex.scss";
 
 @mixin base {
   --at-apply: max-w-full;
@@ -22,12 +22,12 @@
   }
 }
 
-@import 'latte';
+@import "latte";
 .light .markdown-body {
   @include base;
 }
 
-@import 'mocha';
+@import "mocha";
 .dark .markdown-body {
   @include base;
 }

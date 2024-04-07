@@ -2,10 +2,7 @@ import type { H3Event } from 'h3';
 import { serverQueryContent } from '#content/server';
 import type { Post, PostInformation } from '~~/src/composables/posts';
 
-export const serverQueryPosts = async (
-  event: H3Event,
-  { locale = 'zh' } = {}
-) => {
+export async function serverQueryPosts(event: H3Event, { locale = 'zh' } = {}) {
   const query = await serverQueryContent<Post>(event, '/posts')
     .only([
       'title',
@@ -55,4 +52,4 @@ export const serverQueryPosts = async (
   }
 
   return res;
-};
+}

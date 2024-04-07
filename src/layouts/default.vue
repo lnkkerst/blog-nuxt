@@ -139,7 +139,7 @@ onMounted(() => {
             </template>
             <v-list>
               <v-list-item
-                v-for="item in (locales as LocaleObject[])"
+                v-for="item in locales as LocaleObject[]"
                 :key="item.code"
                 color="primary"
                 :value="item.code"

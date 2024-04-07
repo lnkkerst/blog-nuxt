@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-import vuetify from 'vite-plugin-vuetify';
 import transformerDirectives from '@unocss/transformer-directives';
+import vuetify from 'vite-plugin-vuetify';
 
 // I don't know why it doesn't work :(
 function isCustomElement(tag: string) {
